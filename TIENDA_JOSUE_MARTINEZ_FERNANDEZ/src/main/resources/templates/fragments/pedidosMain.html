@@ -1,0 +1,98 @@
+
+<div th:fragment="pedidosMain" class="row w-100 vh-100 m-0">
+	<div class="border border-dark border-1 col-12 col-md-2 bg-dark">
+		<form data-bs-theme="dark"
+			class="bg-dark text-center align-items-center p-3 d-flex flex-column gap-1"
+			method="post" th:action="@{/obtenerPedidos}">
+			<h1 class="h4 mb-3 fw-normal text-white">Filtrar por:</h1>
+
+
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label text-white mb-1 align-self-start"
+					for="fecha">fecha</label> <input th:field="${pedidosDTO.fecha}"
+					id="fecha" name="fecha" type="date"
+					class="form-control w-100 border border-ligth border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('pedidosDTO.fecha')}"
+					th:errors="*{pedidosDTO.fecha}"></div>
+			</div>
+
+
+			<button class=" btn btn-outline-light" name="filtrar" value="filtrar"
+				type="submit">Filtrar</button>
+			<p class="mt-5 mb-3 text-black">
+		</form>
+	</div>
+	<div class="col-12 col-md-10">
+		<main id="accordionpedidos"
+			class="w-100 accordion container-fluid m-main d-flex flex-row flex-wrap align-items-center justify-content-center gap-2">
+		<div class="w-100 text-center">
+			<h2 class="row">
+				<p class="h4  col">Fecha</p>
+				<p class="h4  col">Metodo de pago</p>
+				<p class="h4  col">Numero de factura</p>
+				<p class="h4  col">Total</p>
+				<p class="h4  col">Estado del pedido</p>
+				<p class="h4  col"></p>
+			</h2>
+		</div>
+
+		<block th:each="pedido : ${listaPedidos}"
+			class="w-100 container-fluid d-flex flex-row flex-wrap align-items-center justify-content-center gap-2">
+
+		<div
+			class="w-100 accordion-item text-center p-3 border border-2 border-black">
+			<h2 class="accordion-header pb-3">
+				<div class="row">
+					<p class="h6 col font-weight-normal" th:text="${pedido.fecha}"></p>
+					<p class="h6 col font-weight-normal" th:text="${pedido.metodopago}"></p>
+					<p class="h6 col font-weight-normal"
+						th:text="${pedido.numfactura != null and pedido.numfactura != '' ? pedido.numfactura : '-'}"></p>
+					<p class="h6 col font-weight-normal"
+						th:text="${pedido.total != null and pedido.total != '' ? pedido.total+'€' : '-'}"></p>
+					<p class="h6 col font-weight-normal" th:text="${pedido.estado}"></p>
+					<div class="h6 col font-weight-normal"
+						th:if="${pedido.estado == 'PE' or pedido.estado == 'E'}">
+						<form th:action="@{/solicitarCancelacionPedido}" method="post">
+							<input type="hidden" name="id" th:value="${pedido.id}">
+							<button class="btn btn-dark" type="submit">Cancelar
+								pedido</button>
+						</form>
+					</div>
+					<div class="h6 col font-weight-normal"
+						th:unless="${pedido.estado == 'PE' or pedido.estado == 'E'}">
+						<p class="h6 col font-weight-normal" th:text="${' '}"></p>
+					</div>
+				</div>
+
+				<button class="acordeon-limpio accordion-button" type="button"
+					data-bs-toggle="collapse" aria-expanded="true"
+					th:attr="aria-controls=${'collapse'+pedido.id}, data-bs-target=${'#collapse'+pedido.id}">Ver
+					detalles del pedido</button>
+			</h2>
+			<div th:id="${'collapse'+pedido.id}"
+				class="accordion-collapse collapse"
+				data-bs-parent="#accordionpedidos">
+				<div class="accordion-body row p-3">
+					<p class="h5 col font-weight-normal">Nombre</p>
+					<p class="h5 col font-weight-normal">Unidades</p>
+					<p class="h5 col font-weight-normal">Precio Unidad</p>
+					<p class="h5 col font-weight-normal">Precio total</p>
+					<div class="row p-3 border-top border-top-1 border-black"
+						th:each="detalle : ${pedido.listadetalles}">
+
+						<p class="h6 col font-weight-normal"
+							th:text="${detalle.producto.nombre}"></p>
+						<p class="h6 col font-weight-normal" th:text="${detalle.unidades}"></p>
+						<p class="h6 col font-weight-normal"
+							th:text="${detalle.preciounidad}"></p>
+						<p class="h6 col font-weight-normal" th:text="${detalle.total}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		</block> </main>
+	</div>
+</div>

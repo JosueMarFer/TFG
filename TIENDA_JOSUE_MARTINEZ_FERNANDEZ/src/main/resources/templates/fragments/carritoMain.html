@@ -1,0 +1,101 @@
+<div th:fragment="carritoMain"
+	class="container-fluid m-main d-flex flex-row flex-wrap align-items-center justify-content-center gap-5 ">
+
+	<div class="row w-100 h-100 d-flex justify-content-center">
+
+		<div
+			class="col-md-8 d-flex flex-column align-items-center bg-secondary border border-3 border-dark rounded bg-opacity-25 text-center p-0 m-1 h-100">
+			<div class="bg-dark text-white w-100 p-3">
+				<div class="row">
+					<div class="col">
+						<h1 class="h3 mb-3 fw-normal">Carro de la compra</h1>
+					</div>
+					<div class="col">
+						<h1 class="h3 mb-3 fw-normal"
+							th:text="${session.carrito.size()}+' Productos añadidos'"></h1>
+					</div>
+				</div>
+			</div>
+			<div th:each="producto : ${listaProductos}"
+				class="row align-items-center justify-content-center border-top border-bottom p-3 border-dark w-100">
+				<div class="row main">
+					<div
+						class="col-sm-2 col-12 d-flex flex-column justify-content-center align-items-center">
+						<img class="imagen-carrito img-fluid w-sm-100" th:src="@{'images/'+${producto.imagenname}+'.jpg'}">
+					</div>
+					<div
+						class="col-sm-2 col-12 d-flex flex-column justify-content-center align-items-center">
+						<div class="row" th:text="${producto.nombre}"></div>
+					</div>
+					<div
+						class="col-sm-6 col-12 d-flex flex-column justify-content-center align-items-center">
+						<div class="row w-50">
+							<form th:action="@{/modificarCarrito}" method="post">
+								<input type="hidden" name="id" th:value="${producto.id}">
+								<div
+									class="input-group d-flex flex-row flex-nowrap justify-content-center align-items-center">
+									<input type="hidden" class="cantidadMaximaProducto"
+										name="cantidadMaximaProducto" th:value="${producto.stock}">
+									<button class="btn btn-dark resta rounded-start" type="button">-</button>
+									<input type="text" readonly style="min-width: 50px;"
+										class="cantidadProducto form-control ps-0 pe-0 text-center border-1 border-black text-black"
+										id="cantidadProducto" name="cantidadProducto"
+										th:value="${session.carrito[#strings.toString(producto.id)]}">
+									<button class="btn btn-dark suma" type="button">+</button>
+								</div>
+								<div class="d-flex align-items-center justify-content-center">
+									<button type="submit" class="btn btn-dark mt-1">Modificar
+										el carrito</button>
+
+								</div>
+							</form>
+
+						</div>
+					</div>
+					<div
+						class="col-sm-2 col12 d-flex flex-column justify-content-center align-items-center">
+						<div class="row" th:text="${producto.precio}+'€'"></div>
+					</div>
+				</div>
+
+				<div th:if="${['__${'error' + producto.id}__']!=null}"
+					class=" my-1 col-sm-12 col-12 d-flex flex-column justify-content-center align-items-center">
+					<p class="text-danger">El numero de unidades en el carrito supera el stock, hemos rebajado las unidades hasta alcanzar el maximo de stock.</p>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="col-md-3 bg-secondary border border-3 border-dark rounded bg-opacity-25 text-center p-0 m-1 h-100">
+			<div class="bg-dark text-white w-100 p-3 border border-3 border-dark">
+				<div class="row">
+					<div class="col">
+						<h1 class="h3 mb-3 fw-normal">Sumario</h1>
+					</div>
+				</div>
+			</div>
+			<div th:each="producto : ${listaProductos}">
+				<div class="row p-3">
+					<div class="col" th:text="${producto.nombre}"></div>
+					<div class="col"
+						th:text="${session.carrito[#strings.toString(producto.id)]}+' Uds'"></div>
+					<div class="col text-right"
+						th:text="${producto.precio * session.carrito[#strings.toString(producto.id)]}+'€'"></div>
+				</div>
+			</div>
+			<div class="row p-5 border-top border-dark w-100 m-0">
+				<div class="col">Precio SubTotal</div>
+				<div class="col text-right" th:text="${total}+'€'"></div>
+			</div>
+			<div class="row p-5 pt-0 w-100 m-0">
+				<div class="col">Precio Total</div>
+				<div class="col text-right" th:text="${total + totaliva}+'€'"></div>
+			</div>
+			<form th:action="@{/toPay}" method="post">
+				<button type="submit" class="btn mb-2 btn-dark">Finalizar
+					Compra</button>
+			</form>
+		</div>
+	</div>
+	<script th:src="@{/scripts/catalogo.js}" defer></script>
+</div>

@@ -1,0 +1,35 @@
+<main th:fragment="loginForm"
+	class="container-fluid m-main d-flex flex-row align-items-center flex-wrap justify-content-center gap-5">
+
+<form
+	class="bg-secondary border border-3 border-secondary rounded bg-opacity-25 text-center align-items-center p-3 d-flex flex-column gap-2"
+	method="post" th:action="@{/login}">
+	<img class="mb-4 inversion" th:src="@{/images/logo.png}" alt="logo"
+		width="72">
+	<h1 class="h3 mb-3 fw-normal">Iniciar Sesion</h1>
+
+	<div class="form-floating">
+		<input th:field="${loginDTO.email}" type="text" class="form-control border border-1 border-black"
+			id="email" name="email"> <label for="email">Email</label>
+	</div>
+	<div class="text-danger"
+		th:if="${#fields.hasErrors('loginDTO.email')}"
+		th:errors="*{loginDTO.email}"></div>
+
+	<div class="form-floating">
+		<input th:field="${loginDTO.pass}" type="password"
+			class="form-control border border-1 border-black" id="pass"
+			name="pass"> <label for="pass">Password</label>
+	</div>
+	<div class="text-danger"
+		th:if="${#fields.hasErrors('loginDTO.pass')}"
+		th:errors="*{loginDTO.pass}"></div>
+
+	<button class=" btn btn-dark" type="submit">Login</button>
+	<p class="mt-5 mb-3 text-black">
+		No tienes una cuenta <a th:href="@{/goRegister}">Registrate</a>
+	</p>
+</form>
+
+
+</main>

@@ -1,0 +1,125 @@
+<div th:fragment="usuarioEmpleadoForm" class="container-fluid">
+	<div class="row">
+		<nav id="sidebarMenu"
+			class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+			<div class="position-sticky pt-3 sidebar-sticky">
+				<div class="position-sticky pt-3 sidebar-sticky">
+
+					<h6
+						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+						<span>Opciones</span>
+					</h6>
+					<ul class="nav flex-column mb-2"
+						th:each="opcion : ${session.listaOpcionMenu}">
+						<li class="nav-item"><a
+							th:classappend="${activo != null and activo == opcion.nombreopcion} ? 'active' : ''"
+							class="nav-link" th:href="@{'/'+ ${opcion.urlopcion}}"
+							th:text="${opcion.nombreopcion}"></a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div
+			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<h1 class="h2">Administracion de usuarios</h1>
+		</div>
+
+
+		<form class="w-100 mb-5" method="post"
+			th:action="@{'/' + ${modificar == false ? 'usuarioEmpleadoCrear' : 'usuarioEmpleadoModificar'}}">
+			<fieldset
+				class="w-100 row border border-3 border-primary rounded bg-primary bg-opacity-25 m-0 p-5">
+
+				<div
+					class="w-100 col-12 col-md-6 d-flex flex-column align-items-center p-5">
+					<input th:field="${usuario.id}" th:value="${usuario.id}" id="id"
+						name="id" type="text" class="form-control d-none">
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="nombre">Nombre</label>
+						<input th:field="${usuario.nombre}" th:value="${usuario.nombre}"
+							id="nombre" name="nombre" type="text"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('usuario.nombre')}"
+							th:errors="*{usuario.nombre}"></div>
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="apellidos">Apellidos</label>
+						<input th:field="${usuario.apellidos}"
+							th:value="${usuario.apellidos}" id="apellidos" name="apellidos"
+							type="text"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('usuario.apellidos')}"
+							th:errors="*{usuario.apellidos}"></div>
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="email">Email</label>
+						<input th:field="${usuario.email}" th:value="${usuario.email}"
+							id="email" name="email" type="text"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('usuario.email')}"
+							th:errors="*{usuario.email}"></div>
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="pass">Password</label>
+						<input th:field="${registerDTO.pass}" th:value="${registerDTO.pass}"
+							id="pass" name="pass" type="password"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('registerDTO.pass')}"
+							th:errors="*{registerDTO.pass}"></div>
+					</div>
+					<div th:if="${modificar == false}"
+						class="form-group mb-4 d-flex justify-content-center align-items-center">
+						<button type="submit" name="crear" value="crear"
+							class="btn btn-primary">Crear</button>
+					</div>
+					<div th:if="${modificar == True}"
+						class="form-group mb-4 d-flex justify-content-center align-items-center">
+						<button type="submit" name="modificar" value="modificar"
+							class="btn btn-primary">Modificar</button>
+					</div>
+			</fieldset>
+		</form>
+
+
+		<div class="table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Apellidos</th>
+						<th scope="col">Email</th>
+						<th scope="col">Password</th>
+						<th scope="col">Rol</th>
+						<th scope="col">Baja</th>
+					</tr>
+				</thead>
+				<tbody th:each="usuario,iterStat : ${listaUsuarios}">
+					<tr th:class="${iterStat.index % 2 == 0 ? 'table-primary' : ''}">
+						<td th:text="${usuario.nombre}"></td>
+						<td th:text="${usuario.apellidos}"></td>
+						<td th:text="${usuario.email}"></td>
+						<td th:text="${usuario.pass}"></td>
+						<td th:text="${usuario.rolid.rol}"></td>
+						<td th:text="${usuario.baja}"></td>
+						<td><form th:action="@{/usuarioEmpleadoGoModificar}"
+								method="post">
+								<input type="hidden" name="id" th:value="${usuario.id}">
+								<button class="btn btn-primary" type="submit">Modificar</button>
+							</form></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</main>
+	</div>
+</div>

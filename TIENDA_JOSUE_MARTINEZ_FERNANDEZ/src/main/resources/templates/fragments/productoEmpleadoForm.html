@@ -1,0 +1,171 @@
+<div th:fragment="productoEmpleadoForm" class="container-fluid">
+	<div class="row">
+		<nav id="sidebarMenu"
+			class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+			<div class="position-sticky pt-3 sidebar-sticky">
+				<div class="position-sticky pt-3 sidebar-sticky">
+
+					<h6
+						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+						<span>Opciones</span>
+					</h6>
+					<ul class="nav flex-column mb-2"
+						th:each="opcion : ${session.listaOpcionMenu}">
+						<li class="nav-item"><a
+							th:classappend="${activo != null and activo == opcion.nombreopcion} ? 'active' : ''"
+							class="nav-link" th:href="@{'/'+ ${opcion.urlopcion}}"
+							th:text="${opcion.nombreopcion}"></a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div
+			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<h1 class="h2">Administracion de productos</h1>
+		</div>
+
+
+		<form class="w-100 mb-5" method="post" enctype="multipart/form-data"
+			th:action="@{'/' + ${modificar == false ? 'productoEmpleadoCrear' : 'productoEmpleadoModificar'}}">
+			<fieldset
+				class="w-100 row border border-3 border-primary rounded bg-primary bg-opacity-25 m-0 p-5">
+
+				<div
+					class="w-100 col-12 col-md-6 d-flex flex-column align-items-center p-5">
+					<input th:field="${producto.id}" th:value="${producto.id}" id="id"
+						name="id" type="text" class="form-control d-none"> <input
+						th:field="${producto.imagenname}"
+						th:value="${producto.imagenname}" id="imagenname"
+						name="imagennnombre" type="text" class="form-control d-none">
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="nombre">Nombre</label>
+						<input th:field="${producto.nombre}" th:value="${producto.nombre}"
+							id="nombre" name="nombre" type="text"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('producto.nombre')}"
+							th:errors="*{producto.nombre}"></div>
+
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start"
+							for="descripcion">Descripcion</label> <input
+							th:field="${producto.descripcion}"
+							th:value="${producto.descripcion}" id="descripcion"
+							name="descripcion" type="text"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('producto.descripcion')}"
+							th:errors="*{producto.descripcion}"></div>
+
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="precio">Precio</label>
+						<input th:field="${producto.precio}" th:value="${producto.precio}"
+							id="precio" name="precio" type="number" step="0.01"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('producto.precio')}"
+							th:errors="*{producto.precio}"></div>
+
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="stock">Stock</label>
+						<input th:field="${producto.stock}" th:value="${producto.stock}"
+							id="stock" name="stock" type="number" step="1"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('producto.stock')}"
+							th:errors="*{producto.stock}"></div>
+
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="impuesto">Impuesto</label>
+						<input th:field="${producto.impuesto}"
+							th:value="${producto.impuesto}" id="impuesto" name="impuesto"
+							type="number" step="0.01"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('producto.impuesto')}"
+							th:errors="*{producto.impuesto}"></div>
+
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="imagen">Imagen</label>
+						<input id="imagen" name="imagen" type="file"
+							class="form-control w-100 border border-black border-1">
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('imagenDTO.imagen')}"
+							th:errors="*{imagenDTO.imagen}"></div>
+
+					</div>
+					<div
+						class="form-group mb-4 d-flex flex-column align-items-center w-100">
+						<label class="control-label mb-1 align-self-start" for="categoria">Categoria</label>
+						<select id="categoria" name="categoria"
+							class="form-control w-100 border border-1">
+							<block th:each="categoria : ${listaCategorias}">
+							<option th:selected="${producto?.categoria?.id == categoria.id}"
+								th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+							</block>
+						</select>
+						<div class="text-danger"
+							th:if="${#fields.hasErrors('producto.categoria')}"
+							th:errors="*{producto.categoria}"></div>
+					</div>
+					<div th:if="${modificar == false}"
+						class="form-group mb-4 d-flex justify-content-center align-items-center">
+						<button type="submit" name="crear" value="crear"
+							class="btn btn-primary">Crear</button>
+					</div>
+					<div th:if="${modificar == True}"
+						class="form-group mb-4 d-flex justify-content-center align-items-center">
+						<button type="submit" name="modificar" value="modificar"
+							class="btn btn-primary">Modificar</button>
+					</div>
+			</fieldset>
+		</form>
+
+
+		<div class="table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Descripcion</th>
+						<th scope="col">Precio</th>
+						<th scope="col">Stock</th>
+						<th scope="col">Impuesto</th>
+						<th scope="col">Categoria</th>
+						<th scope="col">Baja</th>
+					</tr>
+				</thead>
+				<tbody th:each="producto,iterStat : ${listaProductos}">
+					<tr th:class="${iterStat.index % 2 == 0 ? 'table-primary' : ''}">
+						<td th:text="${producto.nombre}"></td>
+						<td th:text="${producto.descripcion}"></td>
+						<td th:text="${producto.precio+'€'}"></td>
+						<td th:text="${producto.stock}"></td>
+						<td th:text="${producto.impuesto+'%'}"></td>
+						<td th:text="${producto.categoria.nombre}"></td>
+						<td th:text="${producto.baja}"></td>
+						<td><form th:action="@{/productoEmpleadoGoModificar}"
+								method="post">
+								<input type="hidden" name="id" th:value="${producto.id}">
+								<button class="btn btn-primary" type="submit">Modificar</button>
+							</form></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</main>
+	</div>
+</div>

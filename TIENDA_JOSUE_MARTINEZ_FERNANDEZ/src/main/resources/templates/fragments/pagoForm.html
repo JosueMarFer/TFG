@@ -1,0 +1,166 @@
+<main th:fragment="pagoForm"
+	class="container-fluid m-main d-flex flex-row align-items-center flex-wrap justify-content-center gap-5">
+<form class="w-100 row" method="post" th:action="@{/finalizarCompra}">
+	<div class="col-12 col-md-6">
+		<fieldset
+			class="d-flex flex-column align-items-center border border-3 border-secondary rounded bg-secondary bg-opacity-25 p-5">
+
+			<legend class="text-center h3 fw-normal">Datos de envio</legend>
+
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label mb-1 align-self-start" for="direccion">Direccion</label>
+				<input th:field="${pagoDTO.direccion}" id="direccion" name="direccion" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.direccion')}"
+		th:errors="*{pagoDTO.direccion}"></div>
+			</div>
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="codigoPostal">Codigo Postal</label> <input th:field="${pagoDTO.codigoPostal}" id="codigoPostal"
+					name="codigoPostal" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.codigoPostal')}"
+		th:errors="*{pagoDTO.codigoPostal}"></div>
+			</div>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="pais">Pais</label>
+				<input th:field="${pagoDTO.pais}" id="pais" name="pais" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.pais')}"
+		th:errors="*{pagoDTO.pais}"></div>
+			</div>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="comunidadAutonoma">Comunidad Autonoma</label> <input
+					th:field="${pagoDTO.comunidadAutonoma}" id="comunidadAutonoma" name="comunidadAutonoma" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.comunidadAutonoma')}"
+		th:errors="*{pagoDTO.comunidadAutonoma}"></div>
+			</div>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="provincia">Provincia</label>
+				<input th:field="${pagoDTO.provincia}" id="provincia" name="provincia" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.provincia')}"
+		th:errors="*{pagoDTO.provincia}"></div>
+			</div>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="localidad">Localidad</label>
+				<input th:field="${pagoDTO.localidad}" id="localidad" name="localidad" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.localidad')}"
+		th:errors="*{pagoDTO.localidad}"></div>
+			</div>
+		</fieldset>
+	</div>
+	<div class="col-12 col-md-6">
+		<fieldset
+			class="d-flex flex-column align-items-center border border-3 border-secondary rounded bg-secondary bg-opacity-25 p-5">
+
+			<legend class="text-center h3 fw-normal">Datos de pago</legend>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label mb-1 align-self-start" for="metodopago">Selecciona una opcion de metodo de pago</label>
+				<select th:field="${pagoDTO.metodopago}" id="metodopago" name="metodopago"
+					class="form-control w-100 border border-black border-1">
+					<option selected value="paypal">Paypal</option>
+					<option value="tarjeta">Tarjeta</option>
+				</select>
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.metodopago')}"
+		th:errors="*{pagoDTO.metodopago}"></div>
+			</div>
+			
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="paypalemail">Email paypal</label> <input
+					th:field="${pagoDTO.paypalemail}" id="paypalemail" name="paypalemail" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.paypalemail')}"
+		th:errors="*{pagoDTO.paypalemail}"></div>
+			</div>
+			
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="paypalpass">Password paypal</label> <input
+					th:field="${pagoDTO.paypalpass}" id="paypalpass" name="paypalpass" type="password"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.paypalpass')}"
+		th:errors="*{pagoDTO.paypalpass}"></div>
+			</div>
+						
+			
+			<div
+				class="d-none form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="tarjetanumero">Numero Tarjeta</label> <input
+					th:field="${pagoDTO.tarjetanumero}" id="tarjetanumero" name="tarjetanumero" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.tarjetanumero')}"
+		th:errors="*{pagoDTO.tarjetanumero}"></div>
+			</div>
+			
+			<div
+				class="d-none form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="tarjetapropietario">Propietario</label> <input
+					th:field="${pagoDTO.tarjetapropietario}" id="tarjetapropietario" name="tarjetapropietario" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.tarjetapropietario')}"
+		th:errors="*{pagoDTO.tarjetapropietario}"></div>
+			</div>
+			
+			<div
+				class="d-none form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="tarjetacvv">CVV</label> <input
+					th:field="${pagoDTO.tarjetacvv}" id="tarjetacvv" name="tarjetacvv" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.tarjetacvv')}"
+		th:errors="*{pagoDTO.tarjetacvv}"></div>
+			</div>
+			
+			<div
+				class="d-none form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start"
+					for="tarjetacaducidad">Caducidad</label> <input
+					th:field="${pagoDTO.tarjetacaducidad}" id="tarjetacaducidad" name="tarjetacaducidad" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+		th:if="${#fields.hasErrors('pagoDTO.tarjetacaducidad')}"
+		th:errors="*{pagoDTO.tarjetacaducidad}"></div>
+			</div>
+			<div
+				class="form-group mb-4 d-flex justify-content-center align-items-center">
+				<button type="submit" name="finalizar" value="finalizar"
+					class="btn btn-dark">Realizar Pedido</button>
+			</div>
+		</fieldset>
+	</div>
+</form>
+<script th:src="@{/scripts/formularioPago.js}" defer></script> </main>

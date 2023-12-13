@@ -1,0 +1,16 @@
+<header th:fragment="headerAdmin" class="navbar d-flex justify-items-around navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <button class="navbar-toggler d-md-none collapsed order-md-2" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <span class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Black Snake</span>
+    <div class="navbar-nav">
+      <div class="nav-item text-nowrap">
+				<th:block th:if="${session.usuario != null}">
+					<a class="nav-link px-3" th:href="@{/cerrarSesionAdmin}">Cerrar Sesion</a>
+				</th:block>  
+      </div>
+    </div>
+  </header>
+  
+  

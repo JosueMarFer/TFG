@@ -1,0 +1,142 @@
+
+<div th:fragment="catalogo" class="row w-100 vh-100 m-0">
+	<div class="border border-dark border-1 col-12 col-md-2 bg-dark">
+		<form data-bs-theme="dark"
+			class="bg-dark text-center align-items-center p-3 d-flex flex-column gap-1"
+			method="post" th:action="@{/}">
+			<h1 class="h4 mb-3 fw-normal text-white">Filtrar por:</h1>
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label text-white mb-1 align-self-start"
+					for="precioMin">Precio minimo</label> <input
+					th:field="${catalogoDTO.precioMin}" id="precioMin" name="precioMin"
+					type="number"
+					class="form-control w-100 border border-ligth border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('catalogoDTO.precioMin')}"
+					th:errors="*{catalogoDTO.precioMin}"></div>
+			</div>
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label text-white mb-1 align-self-start"
+					for="precioMax">Precio maximo</label> <input
+					th:field="${catalogoDTO.precioMax}" id="precioMax" name="precioMax"
+					type="number"
+					class="form-control w-100 border border-ligth border-1">
+					<div class="text-danger"
+					th:if="${#fields.hasErrors('catalogoDTO.precioMax')}"
+					th:errors="*{catalogoDTO.precioMax}"></div>
+			</div>
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label text-white mb-1 align-self-start"
+					for="stockMin">Stock minimo</label> <input
+					th:field="${catalogoDTO.stockMin}" id="stockMin" name="stockMin"
+					type="number"
+					class="form-control w-100 border border-ligth border-1">
+					<div class="text-danger"
+					th:if="${#fields.hasErrors('catalogoDTO.stockMin')}"
+					th:errors="*{catalogoDTO.stockMin}"></div>
+			</div>
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label text-white mb-1 align-self-start"
+					for="categoria">Categoria</label> <select
+					th:field="${catalogoDTO.categoria}" id="categoria" name="categoria"
+					class="form-control w-100 border border-ligth border-1">
+					<option selected value="todas">Todas</option>
+					<block th:each="categoria : ${listaCategorias}">
+						<option th:value="${categoria.nombre}" th:text="${categoria.nombre}"></option>
+					</block>
+				</select>
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('catalogoDTO.categoria')}"
+					th:errors="*{catalogoDTO.categoria}"></div>
+			</div>
+			<button class=" btn btn-outline-light" name="filtrar" value="filtrar"
+				type="submit">Filtrar</button>
+			<p class="mt-5 mb-3 text-black">
+		</form>
+	</div>
+	<div class="col-12 col-md-10">
+		<main
+			class="container-fluid m-main d-flex flex-row flex-wrap align-items-center justify-content-center gap-5">
+
+		<div th:each="producto : ${listaProductos}"
+			class="card border border-3 align-items-center border-secondary rounded bg-secondary bg-opacity-25 p-3"
+			style="width: 18rem;" data-toggle="modal" data-target="#miModal">
+			<img th:src="@{'images/'+${producto.imagenname}+'.jpg'}" class="imagen-catalogo card-img-top img-fluid" alt="img"
+				data-bs-toggle="modal"
+				th:attr="data-bs-target=${'#modal'+producto.id}">
+			<div class="card-body">
+				<h5 class="card-title" th:text="${producto.getNombre()}"></h5>
+
+				<form th:action="@{/addProductoToCarrito}" method="post">
+					<input type="hidden" name="id" th:value="${producto.getId()}">
+					<div class="input-group">
+						<input type="hidden" class="cantidadMaximaProducto"
+							name="cantidadMaximaProducto"
+							th:value="${producto.stock - (session.carrito[#strings.toString(producto.id)] != null ? session.carrito[#strings.toString(producto.id)] : 0)}">
+						<button class="btn btn-dark resta rounded-start" type="button">-</button>
+						<input type="text" readonly
+							class="cantidadProducto form-control text-center border-1 border-black text-black"
+							id="cantidadProducto" name="cantidadProducto" value="0">
+						<button class="btn btn-dark suma" type="button">+</button>
+					</div>
+					<div class="d-flex align-items-center justify-content-center">
+						<button type="submit" class="btn btn-dark mt-1">Añadir al
+							carrito</button>
+
+					</div>
+				</form>
+			</div>
+
+			<div class="modal fade" th:id="${'modal'+producto.id}" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div
+							class="modal-header bg-dark text-white border-bottom-1 border-black">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Detalle
+								del producto</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col">
+									<img th:src="@{'images/'+${producto.imagenname}+'.jpg'}" class="imagen-modal img-fluid card-img-top"
+										alt="img">
+								</div>
+								<div class="col">
+									<h5 class="card-title" th:text="${producto.getNombre()}"></h5>
+									<p class="card-text" th:text="${producto.getDescripcion()}"></p>
+									<form th:action="@{/addProductoToCarrito}" method="post">
+										<input type="hidden" name="id" th:value="${producto.getId()}">
+										<div class="input-group">
+											<input type="hidden" class="cantidadMaximaProducto"
+												name="cantidadMaximaProducto"
+												th:value="${producto.stock - (session.carrito[#strings.toString(producto.id)] != null ? session.carrito[#strings.toString(producto.id)] : 0)}">
+											<button class="btn btn-dark resta rounded-start"
+												type="button">-</button>
+											<input type="text" readonly
+												class="cantidadProducto form-control text-center border-1 border-black text-black"
+												id="cantidadProducto" name="cantidadProducto" value="0">
+											<button class="btn btn-dark suma" type="button">+</button>
+										</div>
+										<div class="d-flex align-items-center justify-content-center">
+											<button type="submit" class="btn btn-dark mt-1">Añadir
+												al carrito</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script th:src="@{/scripts/catalogo.js}" defer></script> </main>
+	</div>
+</div>

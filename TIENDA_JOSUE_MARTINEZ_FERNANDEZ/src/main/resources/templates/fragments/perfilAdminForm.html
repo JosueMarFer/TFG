@@ -1,0 +1,140 @@
+<div th:fragment="perfilAdminForm" class="container-fluid">
+	<div class="row">
+		<nav id="sidebarMenu"
+			class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+			<div class="position-sticky pt-3 sidebar-sticky">
+				<div class="position-sticky pt-3 sidebar-sticky">
+
+					<h6
+						class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-primary text-uppercase">
+						<span>Opciones</span>
+					</h6>
+					<ul class="nav flex-column mb-2"
+						th:each="opcion : ${session.listaOpcionMenu}">
+						<li class="nav-item"><a
+							th:classappend="${activo != null and activo == opcion.nombreopcion} ? 'active' : ''"
+							class="nav-link" th:href="@{'/'+ ${opcion.urlopcion}}"
+							th:text="${opcion.nombreopcion}"></a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div
+			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<h1 class="h2">Procesar cancelaciones</h1>
+		</div>
+		<form method="post" th:action="@{/modificarAdminPass}">
+			<fieldset
+				class="row mb-5 border border-3 border-primary rounded bg-primary bg-opacity-25 p-5">
+
+				<legend class="text-center h3 fw-normal">Modificar
+					contraseña</legend>
+
+				<div
+					class="form-group mb-4 d-flex flex-column align-items-center w-100">
+					<label class=" control-label mb-1 align-self-start" for="pass">Password</label>
+					<input th:field="${passDTO.pass}" id="pass" name="pass"
+						type="password"
+						class="form-control w-100 border border-black border-1">
+					<div class="text-danger"
+						th:if="${tipo == 'pass' and #fields.hasErrors('passDTO.pass')}"
+						th:errors="*{passDTO.pass}"></div>
+
+				</div>
+
+				<div
+					class="form-group mb-4 d-flex flex-column align-items-center w-100">
+					<label class=" control-label mb-1 align-self-start" for="passTwo">Repetir
+						password</label> <input th:field="${passDTO.passTwo}" id="passTwo"
+						name="passTwo" type="password"
+						class="form-control w-100 border border-black border-1">
+					<div class="text-danger"
+						th:if="${tipo == 'pass' and #fields.hasErrors('passDTO.passTwo')}"
+						th:errors="*{passDTO.passTwo}"></div>
+
+				</div>
+
+				<div
+					class="form-group mb-4 d-flex flex-column align-items-center w-100">
+					<label class=" control-label mb-1 align-self-start" for="passLast">password
+						Anterior</label> <input th:field="${passDTO.passLast}" id="passLast"
+						name="passLast" type="password"
+						class="form-control w-100 border border-black border-1">
+					<div class="text-danger"
+						th:if="${tipo == 'pass' and #fields.hasErrors('passDTO.passLast')}"
+						th:errors="*{passDTO.passLast}"></div>
+
+				</div>
+
+				<input th:field="${perfilDTO.email}" id="email" name="email"
+					type="email" class="d-none"> <input
+					th:field="${perfilDTO.nombre}" id="nombre" name="nombre"
+					type="text" class="d-none"> <input
+					th:field="${perfilDTO.apellidos}" id="apellidos" name="apellidos"
+					type="text" class="d-none">
+
+
+
+
+				<div
+					class="form-group mb-4 d-flex justify-content-center align-items-center">
+					<button type="submit" name="modificar" value="modificar"
+						class="btn btn-primary">Modificar</button>
+				</div>
+			</fieldset>
+		</form>
+
+		<form method="post" th:action="@{/modificarAdminPerfil}">
+			<fieldset
+				class="row border border-3 border-primary rounded bg-primary bg-opacity-25 p-5">
+
+				<legend class="text-center h3 fw-normal">Datos del perfil</legend>
+
+
+				<div
+					class="form-group mb-4 d-flex flex-column align-items-center w-100">
+					<label class="control-label mb-1 align-self-start" for="email">Email</label>
+					<input th:field="${perfilDTO.email}" id="email" name="email"
+						type="email"
+						class="form-control w-100 border border-black border-1">
+					<div class="text-danger"
+						th:if="${tipo == 'perfil' and #fields.hasErrors('perfilDTO.email')}"
+						th:errors="*{perfilDTO.email}"></div>
+
+				</div>
+				<div
+					class="form-group mb-4 d-flex flex-column align-items-center w-100">
+					<label class=" control-label mb-1 align-self-start" for="nombre">Nombre</label>
+					<input th:field="${perfilDTO.nombre}" id="nombre" name="nombre"
+						type="text"
+						class="form-control w-100 border border-black border-1">
+					<div class="text-danger"
+						th:if="${tipo == 'perfil' and #fields.hasErrors('perfilDTO.nombre')}"
+						th:errors="*{perfilDTO.nombre}"></div>
+
+				</div>
+
+				<div
+					class="form-group mb-4 d-flex flex-column align-items-center w-100">
+					<label class=" control-label mb-1 align-self-start" for="apellidos">Apellidos</label>
+					<input th:field="${perfilDTO.apellidos}" id="apellidos"
+						name="apellidos" type="text"
+						class="form-control w-100 border border-black border-1">
+					<div class="text-danger"
+						th:if="${tipo == 'perfil' and #fields.hasErrors('perfilDTO.apellidos')}"
+						th:errors="*{perfilDTO.apellidos}"></div>
+
+				</div>
+				<div
+					class="form-group mb-4 d-flex justify-content-center align-items-center">
+					<button type="submit" name="modificar" value="modificar"
+						class="btn btn-primary">Modificar</button>
+				</div>
+			</fieldset>
+		</form>
+
+		</main>
+	</div>
+</div>

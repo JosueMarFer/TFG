@@ -1,0 +1,42 @@
+#btnCarro:hover img {
+	filter: invert(1) !important;
+	transition: all 0.2s !important;
+}
+
+.m-main {
+	margin-bottom: 6rem !important;
+	margin-top: 2rem !important;
+}
+
+.inversion {
+	filter: invert(1) !important;
+}
+
+.acordeon-limpio {
+	color: blue !important;
+	box-shadow: none !important;
+	border-color: black !important;
+	background-color: white !important;
+}
+
+.acordeon-limpio:active {
+	color: blue !important;
+	box-shadow: none !important;
+	border-color: black !important;
+	background-color: white !important;
+}
+
+.imagen-carrito {
+	height: 150px !important;
+	width: 100px !important;
+}
+
+.imagen-modal {
+	height: 250px !important;
+	width: 180px !important;
+}
+
+.imagen-catalogo {
+	height: 300px !important;
+	width: 200px !important;
+}

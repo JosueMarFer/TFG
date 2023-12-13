@@ -1,0 +1,81 @@
+<main th:fragment="registerForm" 
+	class="container-fluid m-main d-flex flex-row align-items-center flex-wrap justify-content-center gap-5">
+<form id="formulario" class="w-60" method="post" th:action="@{/registro}">
+	<fieldset
+		class="row border border-3 border-secondary rounded bg-secondary bg-opacity-25 p-5">
+
+		<legend class="text-center h3 fw-normal">Formulario de
+			registro</legend>
+
+		<div class="col-12 col-md-6 d-flex flex-column align-items-center p-5">
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class="control-label mb-1 align-self-start" for="text">Email</label>
+				<input th:field="${registerDTO.email}" id="email"
+					name="email" type="email"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('registerDTO.email')}"
+					th:errors="*{registerDTO.email}"></div>
+
+			</div>
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="nombre">Nombre</label>
+				<input th:field="${registerDTO.nombre}" id="nombre"
+					name="nombre" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('registerDTO.nombre')}"
+					th:errors="*{registerDTO.nombre}"></div>
+
+			</div>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="apellidos">Apellidos</label>
+				<input th:field="${registerDTO.apellidos}" id="apellidos"
+					name="apellidos" type="text"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('registerDTO.apellidos')}"
+					th:errors="*{registerDTO.apellidos}"></div>
+
+			</div>
+		</div>
+
+		<div class="col-12 col-md-6 d-flex flex-column align-items-center p-5">
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="pass">Password</label>
+				<input th:field="${registerDTO.pass}" id="pass" name="pass"
+					type="password"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('registerDTO.pass')}"
+					th:errors="*{registerDTO.pass}"></div>
+
+			</div>
+
+			<div
+				class="form-group mb-4 d-flex flex-column align-items-center w-100">
+				<label class=" control-label mb-1 align-self-start" for="passTwo">Repetir
+					password</label> <input th:field="${registerDTO.passTwo}"
+					id="passTwo" name="passTwo" type="password"
+					class="form-control w-100 border border-black border-1">
+				<div class="text-danger"
+					th:if="${#fields.hasErrors('registerDTO.passTwo')}"
+					th:errors="*{registerDTO.passTwo}"></div>
+
+			</div>
+		</div>
+
+		<div
+			class="form-group mb-4 d-flex justify-content-center align-items-center">
+			<button id="registrar" type="submit" name="registrar" value="registrar"
+				class="btn btn-dark">Registrar</button>
+		</div>
+	</fieldset>
+</form>
+<script th:src="@{/scripts/registro.js}" defer></script>
+</main>
